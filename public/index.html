@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Browser</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>🌐 Mini Browser</h1>
+
+  <div class="search-box">
+    <input type="text" id="urlInput" placeholder="Enter URL (e.g. google.com)">
+    <button onclick="loadPage()">Go</button>
+  </div>
+
+  <div id="error" class="error"></div>
+
+  <script>
+    async function loadPage() {
+      const url = document.getElementById("urlInput").value;
+      const errorDiv = document.getElementById("error");
+
+      errorDiv.innerText = "";
+
+      try {
+        const res = await fetch("/fetch", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          window.location.href = data.url;
+        } else {
+          errorDiv.innerText = data.message;
+        }
+
+      } catch (err) {
+        errorDiv.innerText = "Something went wrong!";
+      }
+    }
+  </script>
+
+</body>
+</html>
