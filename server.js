@@ -12,7 +12,7 @@ app.post("/fetch", async (req, res) => {
   let { url } = req.body;
 
   try {
-    // Add protocol if missing
+
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
       url = "https://" + url;
     }
